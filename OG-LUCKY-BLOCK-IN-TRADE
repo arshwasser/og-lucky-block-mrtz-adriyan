@@ -1,0 +1,94 @@
+local StarterGui = game:GetService("StarterGui")
+
+-- Ladebildschirm erstellen
+local screenGui = Instance.new("ScreenGui")
+local loadingText = Instance.new("TextLabel")
+
+screenGui.Parent = StarterGui:WaitForChild("ScreenGui") or StarterGui
+screenGui.Name = "LoadingScreen"
+
+loadingText.Parent = screenGui
+loadingText.Size = UDim2.new(1, 0, 1, 0)
+loadingText.BackgroundTransparency = 1
+loadingText.Text = "FREE SAB SCRIPTS | discord.gg/vV4TBnjxds"
+loadingText.TextScaled = true
+loadingText.TextColor3 = Color3.fromRGB(255, 221, 85)
+loadingText.Font = Enum.Font.GothamBold
+
+task.wait(5) -- Ladebildschirm für 5 Sekunden
+screenGui:Destroy() -- Ladebildschirm entfernen
+
+task.wait(1) -- kurze Pause
+
+local foundLuckyBlock = false
+
+local function notify(text)
+    StarterGui:SetCore("SendNotification", {
+        Title = "FREE SAB SCRIPTS",
+        Text = text .. " | discord.gg/vV4TBnjxds",
+        Duration = 5
+    })
+end
+
+  task.wait(3) -- wait for UI to load
+
+local function changeText(v)
+    if v:IsA("TextLabel") then
+
+        -- Mythic -> OG
+        if v.Text == "Mythic" then
+            v.Text = "OG"
+            v.TextColor3 = Color3.fromRGB(255,221,85)
+
+            if not v:FindFirstChildOfClass("UIStroke") then
+                local stroke = Instance.new("UIStroke")
+                stroke.Color = Color3.fromRGB(0,0,0)
+                stroke.Thickness = 2
+                stroke.Parent = v
+            end
+
+            -- Gradient (Secret Style: Gold -> Schwarz)
+            if not v:FindFirstChildOfClass("UIGradient") then
+                local gradient = Instance.new("UIGradient")
+                gradient.Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255,221,85)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
+                }
+                gradient.Rotation = 90
+                gradient.Parent = v
+            end
+        end
+
+        -- Lucky Block -> OG Lucky Block
+        if v.Text == "Lucky Block" then
+            v.Text = "OG Lucky Block"
+
+            if not v:FindFirstChildOfClass("UIStroke") then
+                local stroke = Instance.new("UIStroke")
+                stroke.Color = Color3.fromRGB(0,0,0)
+                stroke.Thickness = 2
+                stroke.Parent = v
+            end
+
+            -- Gradient (Secret Style)
+            if not v:FindFirstChildOfClass("UIGradient") then
+                local gradient = Instance.new("UIGradient")
+                gradient.Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255,221,85)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(0,0,0))
+                }
+                gradient.Rotation = 90
+                gradient.Parent = v
+            end
+        end
+
+    end
+end
+
+for _, v in pairs(game:GetDescendants()) do
+    changeText(v)
+end
+
+game.DescendantAdded:Connect(function(v)
+    changeText(v)
+end)
